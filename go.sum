@@ -184,8 +184,6 @@ github.com/hi20160616/exhtml v0.0.0-20210701125727-0167e2b85077 h1:BSFom/32UjWpS
 github.com/hi20160616/exhtml v0.0.0-20210701125727-0167e2b85077/go.mod h1:62QNWcfU/IFrMGu5igewDgTQdBFLuL0Vr1C4mQ71XHY=
 github.com/hi20160616/fetchnews-api v0.0.0-20210527092959-c7f6971039c7 h1:9hWmG/yAeKwOinmOQHBHT0inQINmRdm5nBRxrMlMVg8=
 github.com/hi20160616/fetchnews-api v0.0.0-20210527092959-c7f6971039c7/go.mod h1:JrSJg24dz2xHo3m37Ri/9EcqLcfpcW+aDYaos68MDa8=
-github.com/hi20160616/gears v0.0.0-20210910043732-e88fbac2f6f7 h1:Jj0yJab2iQHESs6lnTX4/rJgHNLo9IBeJ8VwPp3UfdM=
-github.com/hi20160616/gears v0.0.0-20210910043732-e88fbac2f6f7/go.mod h1:37KXh1jB9KVMkC37xWtvbJrf97DB0pWVw86sa01BaaQ=
 github.com/hi20160616/gears v0.0.0-20210910045433-bd070ebed71e h1:nnrZBTyXYiFp4WqNqCRtHbkuKOIfnbBmc6RQgstrMLc=
 github.com/hi20160616/gears v0.0.0-20210910045433-bd070ebed71e/go.mod h1:94zXxv0pKKPbYPnnSLRqxBOYr6oPZxZH+a4fGEb36Lg=
 github.com/hycka/gocc v0.0.0-20210322081417-5d0705989987 h1:nyxQeoDa6DKfWdXQLO8NwwB37nSAQBH/9ieAiGr68ys=
