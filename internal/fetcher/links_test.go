@@ -6,7 +6,7 @@ import (
 )
 
 func TestGetLinks(t *testing.T) {
-	links, err := getLinks("https://nikkei.com/archives/category/rolling")
+	links, err := getLinksRss("https://cn.nikkei.com/rss.html")
 	if err != nil {
 		t.Error(err)
 	}

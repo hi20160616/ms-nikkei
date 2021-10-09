@@ -37,7 +37,7 @@ func TestFetchTitle(t *testing.T) {
 		url   string
 		title string
 	}{
-		{"http://www.nikkei.net/news/tibet-news/1659-%E5%85%AB%E5%90%8D%E6%BA%AB%E6%B3%A2%E8%97%8F%E4%BA%BA%E5%9B%A0%E6%95%99%E6%8E%88%E6%AF%8D%E8%AA%9E%E9%81%AD%E5%88%B0%E4%B8%AD%E5%9C%8B%E7%95%B6%E5%B1%80%E9%80%AE%E6%8D%95", "八名溫波藏人因教授母語遭到中國當局逮捕"},
+		{"https://cn.nikkei.com/industry/itelectric-appliance/46280-2021-10-09-01-47-33.html", "八名溫波藏人因教授母語遭到中國當局逮捕"},
 	}
 	for _, tc := range tests {
 		a := NewArticle()
