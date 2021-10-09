@@ -1,0 +1,14 @@
+{
+  "dbpath":"db",
+  "microservice":{
+    "title":"nikkei",
+    "domain":"nikkei.com",
+    "url":[
+      "https://nikkei.com",
+      "https://nikkei.com/archives/category/rolling"
+    ],
+    "addr":":20011",
+    "timeout":"1s",
+    "heartbeat":"5m"
+  }
+}
