@@ -4,7 +4,7 @@
     "title":"nikkei",
     "domain":"cn.nikkei.com",
     "url":[
-      "https://cn.nikkei.com/"
+      "https://cn.nikkei.com/rss.html"
     ],
     "addr":":10001",
     "timeout":"1s",

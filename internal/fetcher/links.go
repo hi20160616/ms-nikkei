@@ -16,14 +16,17 @@ func fetchLinks() ([]string, error) {
 	rt := []string{}
 
 	for _, rawurl := range configs.Data.MS.URL {
-		links, err := getLinks(rawurl)
+		links, err := getLinksRss(rawurl)
 		if err != nil {
 			return nil, err
 		}
 		rt = append(rt, links...)
 	}
-	// rt = linksFilter(rt, `.*?/archives/\d*`)
-	return rt, nil
+	rt1 := []string{}
+	for _, e := range rt {
+		rt1 = append(rt1, e+"?tmpl=component&print=1&page=")
+	}
+	return rt1, nil
 }
 
 // getLinksJson get links from a url that return json data.
@@ -84,8 +87,6 @@ func kickOutLinksMatchPath(links []string, path string) []string {
 	return tmp
 }
 
-// TODO: use point to impletement linksFilter
-// linksFilter return all matched string list
 func linksFilter(links []string, regex string) []string {
 	flinks := []string{}
 	re := regexp.MustCompile(regex)
