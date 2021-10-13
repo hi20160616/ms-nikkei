@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-var address = "localhost" + configs.Data.MS.Addr
+var address = "localhost" + configs.Data.MS["nikkei"].Addr
 
 func main() {
 	// Set up a connection to the server.
@@ -23,7 +23,7 @@ func main() {
 	c := pb.NewFetchNewsClient(conn)
 
 	// Contact the server and print out its response.
-	articleId := "f8a3801262aea95b78403158c0b13758"
+	articleId := "844573fa32b341da6f03dd810523b94e"
 	if len(os.Args) > 1 {
 		articleId = os.Args[1]
 	}
@@ -40,6 +40,14 @@ func main() {
 		log.Fatalf("could not greet: %v", err)
 	}
 	log.Printf("Greeting: %s", article.Title)
+	// test for panic
+	articleId = "76e1061174e4e6569243816fb552596e"
+	article, err = c.GetArticle(ctx, &pb.GetArticleRequest{Id: articleId})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	} else {
+		log.Printf("Greeting: %s", article.Title)
+	}
 	articles, err := c.SearchArticles(ctx, &pb.SearchArticlesRequest{Keyword: "戴安娜, 民主党"})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
