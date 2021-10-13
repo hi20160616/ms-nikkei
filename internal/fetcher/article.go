@@ -57,8 +57,8 @@ func (a *Article) Get(id string) (*Article, error) {
 			return a, nil
 		}
 	}
-	return nil, fmt.Errorf("[%s] no article with id: %s, url: %s",
-		configs.Data.MS["nikkei"].Title, id, a.U.String())
+	return nil, fmt.Errorf("[%s] no article with id: %s",
+		configs.Data.MS["nikkei"].Title, id)
 }
 
 func (a *Article) Search(keyword ...string) ([]*Article, error) {
