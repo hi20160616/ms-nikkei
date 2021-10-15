@@ -158,9 +158,9 @@ func (a *Article) fetchArticle(rawurl string) (*Article, error) {
 
 func (a *Article) fetchTitle() (string, error) {
 	n := exhtml.ElementsByTag(a.doc, "title")
-	if n == nil {
-		return "", fmt.Errorf("[%s] getTitle error, there is no element <title>",
-			configs.Data.MS["nikkei"].Title)
+	if n == nil || len(n) == 0 {
+		return "", fmt.Errorf("[%s] there is no element <title>: %s",
+			configs.Data.MS["nikkei"].Title, a.U.String())
 	}
 	title := n[0].FirstChild.Data
 	rp := strings.NewReplacer("  日经中文网", "")
