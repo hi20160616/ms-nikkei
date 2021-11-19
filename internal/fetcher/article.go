@@ -1,8 +1,10 @@
 package fetcher
 
 import (
+	"bytes"
 	"crypto/md5"
 	"fmt"
+	"io"
 	"log"
 	"net/url"
 	"regexp"
@@ -201,20 +203,53 @@ func (a *Article) fetchContent() (string, error) {
 		return "", errors.Errorf("[%s] fetchContent: doc is nil: %s", configs.Data.MS["nikkei"].Title, a.U.String())
 	}
 	body := ""
-	bodyN := exhtml.ElementsByTagAndId(a.doc, "div", "contentDiv")
-	if len(bodyN) == 0 {
+	nodes := exhtml.ElementsByTagAndId(a.doc, "div", "contentDiv")
+	if len(nodes) == 0 {
 		return body, errors.Errorf("no article content matched: %s", a.U.String())
 	}
 	// Fetch content
-	plist := exhtml.ElementsByTag(bodyN[0], "p")
-	for _, v := range plist {
-		if v.FirstChild == nil {
-			continue
+	var buf bytes.Buffer
+	w := io.Writer(&buf)
+	for _, n := range nodes {
+		if err := html.Render(w, n); err != nil {
+			return "", errors.WithMessagef(err,
+				"node render to bytes fail: %s", a.U.String())
 		}
-		data := strings.TrimSpace(v.FirstChild.Data)
-		if data != "" && data != "span" {
-			body += gears.ChangeIllegalChar(data) + "  \n"
+		re := regexp.MustCompile(`(?m)<div.*?>([^^]*?)</div>`)
+		x := re.ReplaceAllString(buf.String(), "${1}")
+
+		re = regexp.MustCompile(`(?m)<table.*?>([^^]*?)</table>`)
+		x = re.ReplaceAllString(x, "")
+		re = regexp.MustCompile(`(?m)<div.*?>`) // rm wrong tag
+		x = re.ReplaceAllString(x, "")
+		re = regexp.MustCompile(`(?m)<p.*?>(.*?)</p>`)
+		x = re.ReplaceAllString(x, "${1}")
+		re = regexp.MustCompile(`(?m)<span.*?>(.*?)</span>`)
+		x = re.ReplaceAllString(x, "${1}")
+		re = regexp.MustCompile(`(?m)<h1>(?P<h1>.*?)</h1>`)
+		x = re.ReplaceAllString(x, "# ${h1}")
+		re = regexp.MustCompile(`(?m)<h2>(?P<h2>.*?)</h2>`)
+		x = re.ReplaceAllString(x, "## ${h2}")
+		re = regexp.MustCompile(`(?m)<h3>(?P<h3>.*?)</h3>`)
+		x = re.ReplaceAllString(x, "### ${h3}")
+		re = regexp.MustCompile(`(?m)<span.*?>(.*?)</span>`)
+		x = re.ReplaceAllString(x, "${1}")
+		re = regexp.MustCompile(`(?m)<em>(.*?)</em>`)
+		x = re.ReplaceAllString(x, "*${1}*")
+		re = regexp.MustCompile(`(?m)<b.*?>(.*?)</b>`)
+		x = re.ReplaceAllString(x, "**${1}**")
+		re = regexp.MustCompile(`(?m)<strong>(.*?)</strong>`)
+		x = re.ReplaceAllString(x, "**${1}**")
+		re = regexp.MustCompile(`(?m)<a .*?href="(?P<href>.*?)".*?>(?P<x>.*?)</a>`)
+		x = re.ReplaceAllString(x, "[${x}](${href})")
+		re = regexp.MustCompile(`(?m)<img .*?>`)
+		x = re.ReplaceAllString(x, "")
+		repl := strings.NewReplacer("「", "“", "」", "”", "</div>", "", "　", "", "\n\n", "")
+		x = repl.Replace(x)
+		if strings.TrimSpace(x) != "" {
+			body += x + "  \n"
 		}
+		buf.Reset()
 	}
 	return body, nil
 }

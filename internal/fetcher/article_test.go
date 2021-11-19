@@ -84,8 +84,7 @@ func TestFetchContent(t *testing.T) {
 		url  string
 		want string
 	}{
-		{"https://cn.nikkei.com/politicsaeconomy/economic-policy/46246-2021-10-05-10-19-13.html?tmpl=component&print=1&page=", "aaa"},
-		{"http://cn.nikkei.com/politicsaeconomy/politicsasociety/46303-2021-10-11-15-24-32.html?tmpl=component&print=1&page=", "bbb"},
+		{"https://cn.nikkei.com/politicsaeconomy/economic-policy/46746-2021-11-19-15-34-14.html?tmpl=component&print=1&page=", "bbb"},
 	}
 	var err error
 
