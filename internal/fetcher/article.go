@@ -200,7 +200,8 @@ func shanghai(t time.Time) time.Time {
 
 func (a *Article) fetchContent() (string, error) {
 	if a.doc == nil {
-		return "", errors.Errorf("[%s] fetchContent: doc is nil: %s", configs.Data.MS["nikkei"].Title, a.U.String())
+		return "", errors.Errorf("[%s] fetchContent: doc is nil: %s",
+			configs.Data.MS["nikkei"].Title, a.U.String())
 	}
 	body := ""
 	nodes := exhtml.ElementsByTagAndId(a.doc, "div", "contentDiv")
@@ -223,7 +224,7 @@ func (a *Article) fetchContent() (string, error) {
 		re = regexp.MustCompile(`(?m)<div.*?>`) // rm wrong tag
 		x = re.ReplaceAllString(x, "")
 		re = regexp.MustCompile(`(?m)<p.*?>(.*?)</p>`)
-		x = re.ReplaceAllString(x, "${1}")
+		x = re.ReplaceAllString(x, "${1}  \n")
 		re = regexp.MustCompile(`(?m)<span.*?>(.*?)</span>`)
 		x = re.ReplaceAllString(x, "${1}")
 		re = regexp.MustCompile(`(?m)<h1>(?P<h1>.*?)</h1>`)
@@ -244,9 +245,9 @@ func (a *Article) fetchContent() (string, error) {
 		x = re.ReplaceAllString(x, "[${x}](${href})")
 		re = regexp.MustCompile(`(?m)<img .*?>`)
 		x = re.ReplaceAllString(x, "")
-		repl := strings.NewReplacer("「", "“", "」", "”", "　", "", "\n\n", "", "</div>", "")
+		repl := strings.NewReplacer("「", "“", "」", "”", "　", "", "</div>", "", "\n\n", "\n")
 		x = repl.Replace(x)
-		body += x + "  \n"
+		body = x
 		buf.Reset()
 	}
 	return body, nil

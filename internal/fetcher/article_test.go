@@ -103,7 +103,6 @@ func TestFetchContent(t *testing.T) {
 		if err != nil {
 			t.Error(err)
 		}
-		fmt.Println("ssssssssss")
 		fmt.Println(c)
 	}
 }
