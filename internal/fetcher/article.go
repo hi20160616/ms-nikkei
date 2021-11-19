@@ -244,11 +244,9 @@ func (a *Article) fetchContent() (string, error) {
 		x = re.ReplaceAllString(x, "[${x}](${href})")
 		re = regexp.MustCompile(`(?m)<img .*?>`)
 		x = re.ReplaceAllString(x, "")
-		repl := strings.NewReplacer("「", "“", "」", "”", "</div>", "", "　", "", "\n\n", "")
+		repl := strings.NewReplacer("「", "“", "」", "”", "　", "", "\n\n", "", "</div>", "")
 		x = repl.Replace(x)
-		if strings.TrimSpace(x) != "" {
-			body += x + "  \n"
-		}
+		body += x + "  \n"
 		buf.Reset()
 	}
 	return body, nil
